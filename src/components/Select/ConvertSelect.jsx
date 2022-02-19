@@ -1,17 +1,13 @@
 import styles from "../ConverterCard/ConverterCard.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {setConvertTo, setOutput} from "../../reducers/reducer";
-import store from "../../store";
+import {connect} from "react-redux";
+import {setConvertTo, setOutput, setConvertInput, setUserInput} from "../../actions";
 
-export const ConvertSelect = ({initialCurrency}) => {
-    const currencyList = useSelector(state => state.currencyList);
-    const dispatch = useDispatch();
-    const curs = useSelector(state => state.convertList)
+const ConvertSelect = ({ initialCurrency, currencyList, curs, userInput, setConvertTo, setOutput, setConvertInput, userConvertInput}) => {
 
     function selectHandler(e) {
-        dispatch(setConvertTo(e.target.value));
-        let output = store.getState().userInput * curs[e.target.value];
-        dispatch(setOutput(output));
+        setConvertTo(e.target.value);
+        let output = userInput * curs[e.target.value];
+        setConvertInput(output);
     }
 
     return (
@@ -22,3 +18,22 @@ export const ConvertSelect = ({initialCurrency}) => {
         </select>
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        currencyList: state.currencyList,
+        curs: state.convertList,
+        userInput: state.userInput,
+        userConvertInput: state.userInputConvert,
+        test: state.convertTo
+    }
+}
+
+const mapDispatchToProps = {
+    setOutput,
+    setConvertTo,
+    setUserInput,
+    setConvertInput
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConvertSelect);

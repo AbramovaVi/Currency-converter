@@ -1,35 +1,42 @@
 import styles from "../ConverterCard/ConverterCard.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {setOutput, setUserInput} from "../../reducers/reducer";
-import {useEffect} from "react";
+import { connect } from "react-redux";
+import { setUserInput, setOutput, setConvertInput } from '../../actions';
 import store from "../../store";
 
-export const BaseInput = () => {
-    const convertTo = useSelector(state => state.convertTo);
-    const curs = useSelector(state => state.convertList);
-    const test = useSelector(state => state.userInput);
-    const dispatch = useDispatch();
-    useEffect( () => {
-        // console.log(userInput)
-        // dispatch(setOutput(userInput*curs[convertTo]));
-    })
-    const mapStateToProps = (state) => {
-        console.log(state)
-    }
+const BaseInput = ({ userInput, setUserInput }) => {
+
     const changeHandler = e => {
-        let num = e.target.value * curs[convertTo];
-        dispatch(setOutput(num))
-        let input = e.target.value;
-        // console.log(num);
-        dispatch(setUserInput(input));
-        mapStateToProps(store.getState())
+        // let num = e.target.value * curs[convertTo];
+        // setOutput(num);
+        // let input = e.target.value;
+        // setUserInput(input);
+        // console.log(input)
+        setUserInput(e.target.value);
+        console.log(store.getState().lastChangedInput);
     }
     return (
         <input
             type="number"
             placeholder="0"
+            value={userInput}
             onChange={changeHandler}
             className={styles.input}
         />
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        convertTo : state.convertTo,
+        curs: state.convertList,
+        userInput: state.userInput
+    }
+}
+
+const mapDispatchToProps = {
+    setOutput,
+    setUserInput,
+    setConvertInput
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BaseInput);

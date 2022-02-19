@@ -1,18 +1,16 @@
 import './App.css';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ConverterCard from './components/ConverterCard';
 import data from './data.json';
-import {setBase, setConvertList, setConvertTo, setData, setOutput} from "./reducers/reducer";
+import {setBase, setConvertList, setConvertTo, setData} from "./reducers/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import switcher from './img/switcher.png';
-import store from "./store";
 
 // const API_KEY = '0cbe3b70d79a941b695c';
 const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
 
 function App() {
     const dispatch = useDispatch();
-    const currencyList = useSelector(state => state.currencyList);
     const output = useSelector(state => state.output);
     const base = useSelector(state => state.base);
     const convertTo = useSelector(state => state.convertTo);
@@ -43,8 +41,11 @@ function App() {
     const currencyChanger = () => {
         dispatch(setBase(convertTo));
         dispatch(setConvertTo(base));
-        let output = store.getState().userInput * (1 / curs[convertTo]);
-        dispatch(setOutput(output));
+        // console.log(store.getState().lastChangedInput);
+        // dispatch(setUserInput(store.getState().userInput))
+        // store.getState().lastChangedInput === 'base-input' ? dispatch(setUserInput(store.getState().userInput)) : dispatch(setConvertInput(5));
+        // let output = store.getState().userInput * (1 / curs[convertTo]);
+        // dispatch(setOutput(output));
     }
 
     return (
@@ -54,11 +55,10 @@ function App() {
                 initialCurrency={base}
                 base = 'true'
             />
-            <img src={switcher} onClick={currencyChanger}/>
+            <img src={switcher} onClick={currencyChanger} alt='Поменять валюты местами'/>
             <ConverterCard
                 title="Я получу"
                 initialCurrency={convertTo}
-                output = {output}
             />
         </div>
     );

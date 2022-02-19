@@ -1,28 +1,22 @@
 import styles from "../ConverterCard/ConverterCard.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {setBase, setConvertList, setOutput} from "../../reducers/reducer";
+import {connect} from "react-redux";
 import store from "../../store";
+import {setBase, setConvertInput, setConvertList, setOutput, setUserInput} from "../../actions";
+
 
 const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
 
-export const BaseSelect = ({initialCurrency}) => {
-    // const base = useSelector(state => state.base);
-    const currencyList = useSelector(state => state.currencyList);
-    const userInput = useSelector(state => state.userInput);
-    const curs = useSelector(state => state.convertList);
-    const convertTo = useSelector(state => state.convertTo);
-    const dispatch = useDispatch();
+const BaseSelect = ({initialCurrency, currencyList, setUserInput, convertTo, userInput, userConvertInput, setConvertList, setBase, setConvertInput}) => {
 
     function selectHandler(e) {
-        dispatch(setBase(e.target.value));
+        setBase(e.target.value);
         let base = store.getState().base;
         fetch(`https://api.fastforex.io/fetch-all?from=${base}&api_key=${API_KEY2}`)
             .then( res => {
-                return  res.json();
+                return res.json();
             }).then( res => {
-                console.log(userInput, curs[convertTo],res.results[convertTo], res.results);
-            dispatch(setConvertList(res));
-            dispatch(setOutput(store.getState().userInput * res.results[convertTo]));
+                setConvertList(res);
+                setUserInput(userInput)
         });
     }
 
@@ -34,3 +28,22 @@ export const BaseSelect = ({initialCurrency}) => {
         </select>
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        convertTo : state.convertTo,
+        currencyList: state.currencyList,
+        userInput: state.userInput,
+        userConvertInput: state.userInputConvert,
+        convertList: state.convertList
+    }
+}
+
+const mapDispatchToProps = {
+    setOutput,
+    setConvertList,
+    setBase,
+    setUserInput,
+    setConvertInput
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BaseSelect);

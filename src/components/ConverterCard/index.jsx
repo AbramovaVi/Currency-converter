@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from './ConverterCard.module.css';
-import { useDispatch, useSelector } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {setBase, setConvertTo} from "../../reducers/reducer";
-import { BaseSelect } from "../Select/BaseSelect";
-import { ConvertSelect } from "../Select/ConvertSelect";
-import {BaseInput} from "../Input/BaseInput";
-import {ConvertInput} from "../Input/ConvertInput";
+import { BaseSelect,ConvertSelect } from "../Select";
+import { BaseInput, ConvertInput } from "../Input/index.jsx";
+import {setConvertInput, setOutput, setUserInput} from "../../actions";
 
 const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
 
-const ConverterCard = ({title, initialCurrency, base}) => {
-    // const [userInput, setUserInput] = useState('1');
+const ConverterCard = ({title, initialCurrency, base, convertList, convertTo}) => {
     const fromCurrency = useSelector(state => state.base);
-    const convertTo = useSelector(state => state.convertTo);
     const dispatch = useDispatch();
-    // const output = useSelector(state => state.output);
-    const userInput = useSelector(state => state.userInput);
-
-    const values = useSelector(state => state.convertList);
 
     useEffect(() => {
         base ? dispatch(setBase(initialCurrency)) : dispatch(setConvertTo(initialCurrency));
@@ -35,13 +28,26 @@ const ConverterCard = ({title, initialCurrency, base}) => {
                     base? <BaseInput/> : <ConvertInput/>
                 }
                 <span
-                    className={styles.info}>1
+                    className={styles.info}>
+                    1
                     {base? fromCurrency.toUpperCase(): convertTo.toUpperCase()}
-                    = {base? values[convertTo] + convertTo : (1 / values[convertTo]).toFixed(2) + fromCurrency}
+                    = {base? convertList[convertTo] + convertTo : (1 / convertList[convertTo]).toFixed(2) + fromCurrency}
                 </span>
             </div>
         </div>
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        convertList: state.convertList,
+        convertTo: state.convertTo,
+        userConvertInput: state.userConvertInput
+    }
+}
 
-export default ConverterCard;
+const mapDispatchToProps = {
+    setOutput,
+    setUserInput,
+    setConvertInput
+}
+export default connect(mapStateToProps)(ConverterCard);

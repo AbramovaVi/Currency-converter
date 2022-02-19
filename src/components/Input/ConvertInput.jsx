@@ -1,45 +1,36 @@
 import styles from "../ConverterCard/ConverterCard.module.css";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import {setUserInput} from "../../reducers/reducer";
+import {connect} from "react-redux";
+import {setConvertInput} from "../../actions";
 import store from "../../store";
 
-export const ConvertInput = () => {
-    const output = useSelector(state => state.output);
-    // const base = useSelector(state => state.base);
-    const convertTo = useSelector(state => state.convertTo);
-    const curs = useSelector(state => state.convertList);
-    const userInput = useSelector(state => state.userInput);
-    const dispatch = useDispatch();
-    const [value, setValue] = useState(output);
-
-    const mapStateToProps = (state) => {
-            console.log(state)
-    }
-
-
-    // useEffect(() => {
-        // if (userInput)
-        //     {
-        //         setValue((userInput)*curs[convertTo]);
-        //         // dispatch(setUserInput(0));
-        //     } else setValue(output);
-        // console.log(userInput);
-        // mapStateToProps(store.getState());
-    // }, [output])
-
+const ConvertInput = ({userInputConvert, setConvertInput, test}) => {
+    // console.log(test, userInputConvert);
 
     const changeHandler = e => {
-        // console.log((1 / curs[convertTo]) * e.target.value);
+        setConvertInput(e.target.value);
+        console.log(store.getState().lastChangedInput);
     }
+
     return (
         <input
             type="number"
-            value={output}
-            readOnly={true}
+            value={userInputConvert || ''}
+            // readOnly={true}
             placeholder="0"
-            // onChange={changeHandler}
+            onChange={changeHandler}
             className={styles.input}
         />
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        userInputConvert: state.userInputConvert,
+        test: state.convertList
+    }
+}
+
+const mapDispatchToProps = {
+    setConvertInput
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConvertInput);
