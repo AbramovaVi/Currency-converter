@@ -1,0 +1,40 @@
+.title {
+    font-size: 20px;
+    color: #71767A;
+    text-align: left;
+    margin-bottom: 16px;
+}
+.card {
+    width: 400px;
+    height: 200px;
+    border-radius: 8px;
+    border: 1px solid #CDCDCD;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.select {
+    height: 44px;
+    padding: 11px 22px;
+    color: #71767A;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 8px 8px 0 0;
+    border-color: #CDCDCD;
+}
+.input, .output {
+    border: none;
+    margin: 24px 22px auto;
+    font-weight: bold;
+    font-size: 36px;
+    color: #000;
+    text-align: left;
+}
+.info {
+    font-size: 16px;
+    color: #71767A;
+    text-align: left;
+    margin-left: 22px;
+    margin-bottom: 16px;
+}
