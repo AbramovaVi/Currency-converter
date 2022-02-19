@@ -1,8 +1,8 @@
-import styles from "../ConverterCard/ConverterCard.module.css";
-import {connect} from "react-redux";
-import {setConvertTo, setOutput, setConvertInput, setUserInput} from "../../actions";
+import { connect } from "react-redux";
+import { setConvertTo, setConvertInput, setUserInput } from "../../actions";
+import { MenuItem, TextField } from "@mui/material";
 
-const ConvertSelect = ({ initialCurrency, currencyList, curs, userInput, setConvertTo, setOutput, setConvertInput, userConvertInput}) => {
+const ConvertSelect = ({ initialCurrency, currencyList, curs, userInput, setConvertTo, setConvertInput }) => {
 
     function selectHandler(e) {
         setConvertTo(e.target.value);
@@ -11,11 +11,17 @@ const ConvertSelect = ({ initialCurrency, currencyList, curs, userInput, setConv
     }
 
     return (
-        <select onChange={selectHandler} className={styles.select}>
-            { Object.keys(currencyList).map((keyName, i) => {
-                return <option value={keyName} key={keyName} selected={keyName === initialCurrency}>{keyName.toUpperCase()}</option>
+        <TextField
+            variant="filled"
+            select
+            value={initialCurrency}
+            onChange={selectHandler}
+            helperText="Please select your currency"
+        >
+            { Object.keys(currencyList).map((keyName) => {
+                return <MenuItem value={keyName} key={keyName}>{keyName.toUpperCase()}</MenuItem>
             })}
-        </select>
+        </TextField>
     )
 }
 
@@ -30,7 +36,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    setOutput,
     setConvertTo,
     setUserInput,
     setConvertInput

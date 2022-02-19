@@ -1,12 +1,11 @@
-import styles from "../ConverterCard/ConverterCard.module.css";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import store from "../../store";
-import {setBase, setConvertInput, setConvertList, setOutput, setUserInput} from "../../actions";
-
+import { setBase, setConvertInput, setConvertList, setUserInput } from "../../actions";
+import { MenuItem, TextField } from "@mui/material";
 
 const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
 
-const BaseSelect = ({initialCurrency, currencyList, setUserInput, convertTo, userInput, userConvertInput, setConvertList, setBase, setConvertInput}) => {
+const BaseSelect = ({initialCurrency, currencyList, setUserInput, userInput, setConvertList, setBase}) => {
 
     function selectHandler(e) {
         setBase(e.target.value);
@@ -21,11 +20,17 @@ const BaseSelect = ({initialCurrency, currencyList, setUserInput, convertTo, use
     }
 
     return (
-        <select onChange={selectHandler} className={styles.select}>
-            { Object.keys(currencyList).map((keyName, i) => {
-                return <option value={keyName} key={keyName} selected={keyName === initialCurrency}>{keyName.toUpperCase()}</option>
-            })}
-        </select>
+        <TextField
+            select
+            variant="filled"
+            value={initialCurrency}
+            onChange={selectHandler}
+            helperText="Please select your currency"
+        >
+            { Object.keys(currencyList).map((keyName) => {
+                        return <MenuItem value={keyName} key={keyName}>{keyName.toUpperCase()}</MenuItem>
+                    })}
+        </TextField>
     )
 }
 const mapStateToProps = (state) => {
@@ -39,7 +44,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    setOutput,
     setConvertList,
     setBase,
     setUserInput,

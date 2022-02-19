@@ -5,13 +5,6 @@ const setData = (payload) => {
     }
 }
 
-const setOutput = (payload) => {
-    return {
-        type: 'SET_OUTPUT',
-        payload
-    }
-}
-
 const setUserInput = (payload) => {
     return {
         type: 'SET_USER_INPUT',
@@ -49,7 +42,6 @@ const setConvertInput = (payload) => {
 
 export {
     setData,
-    setOutput,
     setUserInput,
     setConvertList,
     setBase,

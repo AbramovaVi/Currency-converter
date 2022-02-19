@@ -1,24 +1,20 @@
 import { useEffect } from "react";
 import styles from './ConverterCard.module.css';
-import {connect, useDispatch, useSelector} from "react-redux";
-import {setBase, setConvertTo} from "../../reducers/reducer";
+import { connect, useDispatch } from "react-redux";
+import { setBase, setConvertTo } from "../../reducers/reducer";
 import { BaseSelect,ConvertSelect } from "../Select";
-import { BaseInput, ConvertInput } from "../Input/index.jsx";
-import {setConvertInput, setOutput, setUserInput} from "../../actions";
+import { BaseInput, ConvertInput } from "../Input";
 
-const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
-
-const ConverterCard = ({title, initialCurrency, base, convertList, convertTo}) => {
-    const fromCurrency = useSelector(state => state.base);
+const ConverterCard = ({ title, initialCurrency, base, convertList, convertTo, fromCurrency }) => {
     const dispatch = useDispatch();
+    const SPACE = ' ';
 
     useEffect(() => {
         base ? dispatch(setBase(initialCurrency)) : dispatch(setConvertTo(initialCurrency));
-        // setCurrencyList(data);
     },[] );
 
     return (
-        <div>
+        <div className={styles['card-container']}>
             <p className={styles.title}>{title}</p>
             <div className={styles.card}>
                 {base ?
@@ -27,12 +23,12 @@ const ConverterCard = ({title, initialCurrency, base, convertList, convertTo}) =
                 {
                     base? <BaseInput/> : <ConvertInput/>
                 }
-                <span
-                    className={styles.info}>
-                    1
-                    {base? fromCurrency.toUpperCase(): convertTo.toUpperCase()}
-                    = {base? convertList[convertTo] + convertTo : (1 / convertList[convertTo]).toFixed(2) + fromCurrency}
-                </span>
+                <p className={styles.info}>
+                    1 {SPACE + (base?
+                    fromCurrency.toUpperCase(): convertTo.toUpperCase()) + SPACE}
+                    = {base?
+                    convertList[convertTo] + SPACE + convertTo : (1 / convertList[convertTo]).toFixed(2) + SPACE + fromCurrency}
+                </p>
             </div>
         </div>
     )
@@ -41,13 +37,9 @@ const mapStateToProps = (state) => {
     return {
         convertList: state.convertList,
         convertTo: state.convertTo,
-        userConvertInput: state.userConvertInput
+        userConvertInput: state.userConvertInput,
+        fromCurrency: state.base
     }
 }
 
-const mapDispatchToProps = {
-    setOutput,
-    setUserInput,
-    setConvertInput
-}
 export default connect(mapStateToProps)(ConverterCard);

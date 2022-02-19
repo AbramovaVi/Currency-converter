@@ -12,7 +12,6 @@ const SET_DATA = 'SET_DATA';
 const SET_BASE = 'SET_BASE';
 const SET_CONVERT_TO = 'SET_CONVERT_TO';
 const SET_CONVERT_LIST = 'SET_CONVERT_FROM';
-const SET_OUTPUT = 'SET_OUTPUT';
 const SET_USER_INPUT = 'SET_USER_INPUT';
 const SET_CONVERT_INPUT = 'SET_CONVERT_INPUT';
 
@@ -29,8 +28,6 @@ export const reducer = (state = defaultState, action) => {
                 convertList: action.payload,
                 userInputConvert: (state.userInput * action.payload[state.convertTo]).toFixed(2)
             };
-        case SET_OUTPUT:
-            return {...state, output: action.payload.toFixed(2)};
         case SET_USER_INPUT:
             return {...state,
                 userInput: action.payload,

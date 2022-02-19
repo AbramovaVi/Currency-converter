@@ -1,31 +1,25 @@
-import styles from "../ConverterCard/ConverterCard.module.css";
-import {connect} from "react-redux";
-import {setConvertInput} from "../../actions";
-import store from "../../store";
+import { connect } from "react-redux";
+import { setConvertInput } from "../../actions";
+import { TextField } from "@mui/material";
 
-const ConvertInput = ({userInputConvert, setConvertInput, test}) => {
-    // console.log(test, userInputConvert);
+const ConvertInput = ({userInputConvert, setConvertInput}) => {
 
     const changeHandler = e => {
         setConvertInput(e.target.value);
-        console.log(store.getState().lastChangedInput);
     }
 
     return (
-        <input
-            type="number"
-            value={userInputConvert || ''}
-            // readOnly={true}
-            placeholder="0"
-            onChange={changeHandler}
-            className={styles.input}
+        <TextField id="standard-basic" variant="standard" type="number"
+                   value={userInputConvert || ''}
+                   placeholder="0"
+                   onChange={changeHandler}
+                   sx = {{ width: '95%', margin: 'auto', fontSize: '36px'}}
         />
     )
 }
 const mapStateToProps = (state) => {
     return {
         userInputConvert: state.userInputConvert,
-        test: state.convertList
     }
 }
 
