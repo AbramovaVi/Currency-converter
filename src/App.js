@@ -4,7 +4,7 @@ import { setConvertList, setData } from "./reducers/reducer";
 import { useDispatch, useSelector } from "react-redux";
 import Converter from "./components/Converter";
 
-const API_KEY2 = '26f246574d-fe5c3fbb80-r7gvsq';
+const API_KEY2 = '9639589b8b-18d114e438-r7umcj';
 
 function App() {
     const dispatch = useDispatch();
